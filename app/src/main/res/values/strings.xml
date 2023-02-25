@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">googleAuthExperimentBasic</string>
+    <string name="lorem_ipsum">Lorem Ipsum</string>
+    <string name="next">Next screen</string>
+    <string name="logoutButtonCaption">Logout</string>
+    <string name="loginButtonCaption">Login with Google</string>
+</resources>
