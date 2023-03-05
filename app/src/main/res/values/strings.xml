@@ -2,6 +2,9 @@
     <string name="app_name">googleAuthExperimentBasic</string>
     <string name="lorem_ipsum">Lorem Ipsum</string>
     <string name="next">Next screen</string>
-    <string name="logoutButtonCaption">Logout</string>
+    <string name="logoutButtonCaption">Logout from Google</string>
     <string name="loginButtonCaption">Login with Google</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="client_id">201700594575-invd52r6hatl430ifvoflidknchs9vhd.apps.googleusercontent.com</string>
+    <string name="client_server_id">464496533784-f1q2acj6sgo634jcmcf6ja429ohhspm7.apps.googleusercontent.com</string>
 </resources>

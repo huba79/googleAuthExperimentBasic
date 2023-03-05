@@ -3,15 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:isScrollContainer="true"
         android:orientation="vertical"
         android:padding="16dp"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:scrollbarSize="8dp"
+        android:scrollbarStyle="insideInset"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,18 +31,19 @@
             android:text="@string/loginButtonCaption" />
 
         <TextView
-            android:id="@+id/textview_first"
-            android:layout_width="240dp"
-            android:layout_height="50sp"
+            android:id="@+id/resultViewId"
+            android:layout_width="match_parent"
+            android:layout_height="500sp"
             android:layout_gravity="center"
             android:layout_margin="25dp"
             android:layout_marginVertical="25dp"
+            android:scrollbars="vertical"
             android:text="@string/lorem_ipsum" />
 
         <Button
-            android:id="@+id/button_first"
-            android:layout_width="120dp"
-            android:layout_height="60dp"
+            android:id="@+id/googleLogoutButtonId"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_margin="25dp"
             android:layout_marginVertical="25dp"
