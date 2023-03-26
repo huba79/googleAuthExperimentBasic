@@ -7,4 +7,5 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="client_id">201700594575-invd52r6hatl430ifvoflidknchs9vhd.apps.googleusercontent.com</string>
     <string name="client_server_id">464496533784-f1q2acj6sgo634jcmcf6ja429ohhspm7.apps.googleusercontent.com</string>
+    <string name="query_button_caption">Query user data</string>
 </resources>

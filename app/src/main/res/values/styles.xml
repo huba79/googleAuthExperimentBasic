@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="actionButtonStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_margin">25dp</item>
+    </style>
+
+    <style name="textViewStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50sp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_margin">25dp</item>
+        <item name="android:layout_marginVertical">25dp</item>
+        <item name="android:scrollbars">vertical</item>
+    </style>
+</resources>
