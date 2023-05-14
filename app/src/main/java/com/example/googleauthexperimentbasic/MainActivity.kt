@@ -22,9 +22,10 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity(), OnClickListener {
     private val LOGGER_TAG = "login"
     private val GOOGLE_SIGN_IN_INTENT_CODE = 1
-    private lateinit var viewbindig: ActivityMainBinding
-    private lateinit var mGoogleSignInClient: GoogleSignInClient
-    private lateinit var accessToken: String
+    private lateinit var fBindig: ActivityMainBinding
+    private lateinit var fGoogleSignInClient: GoogleSignInClient
+    private lateinit var fAccessToken: String
+    private lateinit var fIdToken: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -34,35 +35,44 @@ class MainActivity : AppCompatActivity(), OnClickListener {
             .requestServerAuthCode(getString(R.string.client_server_id))
             .build()
 
-        viewbindig = ActivityMainBinding.inflate(LayoutInflater.from(this@MainActivity))
-        setContentView(viewbindig.root)
-        mGoogleSignInClient = GoogleSignIn.getClient(this@MainActivity, gso)
+        fBindig = ActivityMainBinding.inflate(LayoutInflater.from(this@MainActivity))
+        setContentView(fBindig.root)
+        fBindig.resultViewId.movementMethod = ScrollingMovementMethod()
 
-        viewbindig.resultViewId.movementMethod = ScrollingMovementMethod()
+        fGoogleSignInClient = GoogleSignIn.getClient(this@MainActivity, gso)
 
-        val signInButton = viewbindig.googleLoginButtonId
+
+        val signInButton = fBindig.googleLoginButtonId
         signInButton.setOnClickListener(this)
 
-        val signOutButton = viewbindig.googleLogoutButtonId
+        val signOutButton = fBindig.googleLogoutButtonId
         signOutButton.setOnClickListener(this)
 
-        Log.d("login", "Dev key hash is: ${logDevKeyHash()}")
+//        Log.d("login", "Dev key hash is: ${logDevKeyHash()}")
 
-        val queryButton = viewbindig.queryButtonId
+        val queryButton = fBindig.queryButtonId
         queryButton.setOnClickListener {
-            val usersApi = RetrofitAdapter.getInstance().create(UsersApi::class.java)
+            val usersApi = RetrofitAdapter.getInstance(this).create(UsersApi::class.java)
             // launching a new coroutine
             GlobalScope.launch {
-                val result = usersApi.getUser("Bearer A.A.A", 1)
-                if (result != null)
-                    viewbindig.queryResultView.text = result.body().toString()
-                // Checking the results
+                val result = usersApi.getUser("Bearer ${fIdToken}", 1302)
+                fBindig.queryResultView.text = result.body().toString()
                 Log.d(LOGGER_TAG, result.body().toString())
             }
         }
     }
+    @Override
+    fun onStart(bundle: Bundle) {
+        super.onStart()
+        Log.d(LOGGER_TAG, "onStart triggered")
+        // Check for existing Google Sign In account, if the user is already signed in the GoogleSignInAccount will be non-null.
+        val account = GoogleSignIn.getLastSignedInAccount(this@MainActivity)
+        if (account is GoogleSignInAccount) {
+            updateUI(account)
+        }
+    }
 
-    private fun logDevKeyHash() {
+//    private fun logDevKeyHash() {
 //        try {
 //            val packageName = packageName
 //            val info = packageManager.getPackageInfo(
@@ -78,7 +88,7 @@ class MainActivity : AppCompatActivity(), OnClickListener {
 //        } catch (e: NoSuchAlgorithmException) {
 //            Log.e("LOGGER_TAG:", "Hash algorythm not found!")
 //        }
-    }
+//    }
 
     private fun signIn(googleSignInClient: GoogleSignInClient) {
         Log.d(LOGGER_TAG, "Signing in...")
@@ -99,14 +109,15 @@ class MainActivity : AppCompatActivity(), OnClickListener {
         Log.d(LOGGER_TAG, "processing ActivityResults")
 
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
-        if (requestCode === GOOGLE_SIGN_IN_INTENT_CODE) {
+        if (requestCode == GOOGLE_SIGN_IN_INTENT_CODE) {
             // The Task returned from this call is always completed, no need to attach a listener.
             val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
 
             if (task.isSuccessful) {
                 val account = task.result.account
                 if (account != null) {
-                    accessToken = task.result.serverAuthCode!!
+                    fAccessToken = task.result.serverAuthCode!!
+                    fIdToken= task.result.idToken!!
                     updateUI(task.result)
                     Log.d(
                         LOGGER_TAG,
@@ -130,7 +141,7 @@ class MainActivity : AppCompatActivity(), OnClickListener {
                     LOGGER_TAG,
                     "(oAR)Login task was unsuccessful! Problem: ${task.exception!!.message} , Cause: ${task.exception!!.message}"
                 )
-                viewbindig.resultViewId.text =
+                fBindig.resultViewId.text =
                     "Unsuccessful login, please try again later. ${task.exception!!.message}"
             }
 
@@ -159,33 +170,25 @@ class MainActivity : AppCompatActivity(), OnClickListener {
 
     }
     */
-    @Override
-    fun onStart(bundle: Bundle) {
-        super.onStart()
-        Log.d(LOGGER_TAG, "onStart triggered")
-        // Check for existing Google Sign In account, if the user is already signed in the GoogleSignInAccount will be non-null.
-        val account = GoogleSignIn.getLastSignedInAccount(this@MainActivity)
-        updateUI(account)
-    }
 
     private fun updateUI(account: GoogleSignInAccount?) {
         if (account != null) {
-            viewbindig.resultViewId.text =
+            fBindig.resultViewId.text =
                 "Greetings, ${account.email}, \nyour id token is:${account.idToken} ,\nyour access token is: ${account.serverAuthCode} "
         } else {
-            viewbindig.resultViewId.text = "You are not logged in, please log in to continue! "
+            fBindig.resultViewId.text = getString(R.string.login_advice)
         }
     }
 
     override fun onClick(view: View?) {
         when (view!!.id) {
-            viewbindig.googleLoginButtonId.id -> {
+            fBindig.googleLoginButtonId.id -> {
                 Log.d(LOGGER_TAG, "Login clicked")
-                signIn(mGoogleSignInClient)
+                signIn(fGoogleSignInClient)
             }
-            viewbindig.googleLogoutButtonId.id -> {
+            fBindig.googleLogoutButtonId.id -> {
                 Log.d(LOGGER_TAG, "Logout clicked")
-                signOut(mGoogleSignInClient)
+                signOut(fGoogleSignInClient)
             }
         }
     }

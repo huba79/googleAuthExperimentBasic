@@ -25,6 +25,11 @@ class UserResponse {
 
     @JsonProperty("active")
     private var active: Boolean? = null
+    @JsonProperty("provider")
+    private var provider: String? = null
+
+    @JsonProperty("oidcId")
+    private var oidcId: String? = null
 
     @JsonProperty("address")
     @JsonSerialize(`as` = Address::class)
@@ -35,12 +40,15 @@ class UserResponse {
     private var contactData: ContactData? = null
 
     @JsonProperty("roles")
+    @JsonSerialize(`as` = List::class)
     private var roles: List<Role>? = null
 
     @JsonProperty("financialData")
     @JsonSerialize(`as` = FinancialData::class)
     private var financialData: FinancialData? = null
 
+    get
+    private set
     constructor() {}
     constructor(
         id: Long?,
@@ -49,6 +57,8 @@ class UserResponse {
         displayName: String?,
         loginName: String?,
         active: Boolean?,
+        provider: String?,
+        oidcId: String?,
         address: Address?,
         contactData: ContactData?,
         roles: List<Role>?,
@@ -60,10 +70,26 @@ class UserResponse {
         this.displayName = displayName
         this.loginName = loginName
         this.active = active
+        this.provider = provider
+        this.oidcId=oidcId
         this.address = address
         this.contactData = contactData
         this.roles = roles
         this.financialData = financialData
     }
+
+    override fun toString(): String {
+        return "UserResponse(id=$id, " +
+                "\nfirstName=$firstName, " +
+                "\nlastName=$lastName, " +
+                "\ndisplayName=$displayName, " +
+                "\nloginName=$loginName, " +
+                "\nactive=$active, " +
+                "\naddress=$address, " +
+                "\ncontactData=$contactData, " +
+                "\nroles=$roles, " +
+                "\nfinancialData=$financialData)"
+    }
+
 
 }

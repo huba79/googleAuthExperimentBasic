@@ -8,4 +8,8 @@
     <string name="client_id">201700594575-invd52r6hatl430ifvoflidknchs9vhd.apps.googleusercontent.com</string>
     <string name="client_server_id">464496533784-f1q2acj6sgo634jcmcf6ja429ohhspm7.apps.googleusercontent.com</string>
     <string name="query_button_caption">Query user data</string>
+    <string name="pk_dev_pass">chillandfish</string>
+    <string name="key_manager_factory_type">X509</string>
+    <string name="ssl_protocol_type">SSL</string>
+    <string name="login_advice">"You are not logged in, please log in to continue! "</string>
 </resources>
